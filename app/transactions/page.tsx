@@ -9,6 +9,7 @@ import { Navbar } from "../_components/navbar";
 import { db } from "../_lib/prisma";
 import { transactionColumns } from "./_colunms";
 import { ScrollArea } from "../_components/ui/scroll-area";
+import { canUserAddTransactions } from "../_data/can-user-add-transaction";
 
 const TransactionPage = async () => {
   const { userId } = await auth();
@@ -25,6 +26,7 @@ const TransactionPage = async () => {
       date: "desc",
     },
   });
+  const userCanAddTransaction = await canUserAddTransactions();
 
   //composition pattern
   return (
@@ -34,7 +36,7 @@ const TransactionPage = async () => {
         {/* TÍTULO E BOTÃO */}
         <div className="flex w-full items-center justify-between">
           <h1 className="text-2xl font-bold">Transações</h1>
-          <AddTransationButton />
+          <AddTransationButton userCanAddTransaction={userCanAddTransaction} />
         </div>
         <ScrollArea className="h-[calc(100vh-200px)]">
           <DataTable columns={transactionColumns} data={transactions} />

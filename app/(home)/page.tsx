@@ -10,6 +10,7 @@ import { LastTransactions } from "./_componets/last-transactions";
 import { SummaryCards } from "./_componets/summary-cards";
 import { TimeSelect } from "./_componets/time-select";
 import { TransactionPieChart } from "./_componets/transaction-pie-chart";
+import { canUserAddTransactions } from "../_data/can-user-add-transaction";
 
 interface ISummaryMonthSelect {
   searchParams: {
@@ -29,8 +30,9 @@ const Home = async ({ searchParams: { month } }: ISummaryMonthSelect) => {
     const currentMonth = format(new Date(), "MM");
     redirect(`/?month=${currentMonth}`);
   }
-
   const dashboardData = await getDashboard(month);
+
+  const userCanAddTransaction = await canUserAddTransactions();
 
   return (
     <>
@@ -43,7 +45,11 @@ const Home = async ({ searchParams: { month } }: ISummaryMonthSelect) => {
 
         <div className="grid h-full grid-cols-[2fr,1fr] gap-6 overflow-hidden">
           <div className="flex flex-col gap-6 overflow-hidden">
-            <SummaryCards month={month} {...dashboardData} />
+            <SummaryCards
+              month={month}
+              {...dashboardData}
+              userCanAddTransaction={userCanAddTransaction}
+            />
 
             <div className="grid h-full grid-cols-3 grid-rows-1 gap-6 overflow-hidden">
               <TransactionPieChart {...dashboardData} />

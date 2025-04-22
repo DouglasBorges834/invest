@@ -8,6 +8,7 @@ interface ISummaryCardProps {
   title: string;
   amount: number;
   size?: "small" | "large";
+  userCanAddTransaction?: boolean;
 }
 const amountFormater = (amount: number) => {
   return Intl.NumberFormat("pt-BR", {
@@ -21,6 +22,7 @@ export const Summarycard = ({
   amount,
   icon,
   size = "small",
+  userCanAddTransaction,
 }: ISummaryCardProps) => {
   return (
     <Card className={`${size === "large" ? "bg-white bg-opacity-5" : ""}`}>
@@ -39,7 +41,9 @@ export const Summarycard = ({
         >
           {amountFormater(amount) || 0}
         </div>
-        {size == "large" && <AddTransationButton />}
+        {size == "large" && (
+          <AddTransationButton userCanAddTransaction={userCanAddTransaction} />
+        )}
       </CardContent>
     </Card>
   );

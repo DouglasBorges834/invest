@@ -23,7 +23,7 @@ export const AcquiredPlanButton = () => {
       sessionId: sessionId!,
     });
   };
-  console.log(user, "<<<<<<<<<<<<<<<,,");
+
   if (hasPremiumPlan) {
     return (
       <Button variant={"link"} className="w-full rounded-full">

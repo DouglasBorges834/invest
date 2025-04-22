@@ -5,6 +5,7 @@ import { AcquiredPlanButton } from "./_components/acquired-plan-button";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Badge } from "../_components/ui/badge";
+import { getCurrentMonthTransactions } from "../_data/get-current_month";
 
 const SubscriptionPage = async () => {
   const { userId } = await auth();
@@ -13,8 +14,10 @@ const SubscriptionPage = async () => {
   }
   const user = await clerkClient.users.getUser(userId);
 
-  const hasPremiumPlan = user?.publicMetadata.subscriptionPlan == "premium";
+  const currentMonthTransactions = getCurrentMonthTransactions();
 
+  const hasPremiumPlan = user?.publicMetadata.subscriptionPlan == "premium";
+  //se for premium nao precisa aparecer quantas transações fez .
   return (
     <main>
       <Navbar />
@@ -44,7 +47,8 @@ const SubscriptionPage = async () => {
             <CardContent className="space-y-5 py-6">
               <li className="flex items-center gap-2">
                 <CheckIcon className="text-success_green" />
-                Apenas 10 transações por mês (7/10)
+                Apenas 10 transações por mês ({currentMonthTransactions || 0}
+                /10)
               </li>
               <li className="flex items-center gap-2">
                 <XIcon className="text-secondary-foreground" />
