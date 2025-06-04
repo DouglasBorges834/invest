@@ -15,7 +15,6 @@ const TransactionPage = async () => {
   if (!userId) {
     redirect("/login");
   }
-  console.log(userId, "userId");
   const transation = await db.transaction.findMany({
     where: {
       userId,

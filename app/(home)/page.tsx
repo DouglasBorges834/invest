@@ -10,6 +10,7 @@ import { LastTransactions } from "./_componets/last-transactions";
 import { SummaryCards } from "./_componets/summary-cards";
 import { TimeSelect } from "./_componets/time-select";
 import { TransactionPieChart } from "./_componets/transaction-pie-chart";
+import { auth } from "@clerk/nextjs/server";
 
 interface ISummaryMonthSelect {
   searchParams: {
@@ -19,11 +20,10 @@ interface ISummaryMonthSelect {
 
 const Home = async ({ searchParams: { month } }: ISummaryMonthSelect) => {
   const monthIsInvalid: boolean = !month || !isMatch(month, "MM");
-  // const { userId } = await auth();
-  // if (!userId) {
-  //   redirect("/login");
-  // }
-  // console.log(userId, "userId >>> ");
+  const { userId } = await auth();
+  if (!userId) {
+    redirect("/login");
+  }
 
   if (monthIsInvalid) {
     const currentMonth = format(new Date(), "MM");
